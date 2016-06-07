@@ -4,27 +4,80 @@ var display = document.querySelector('.display figure');
 
 var displayArray = [];
 
+var operators = ['x','+','-','=','/'];
+var number = ['0','1','2','3','4','6','7','8','9'];
+
+var allArray = [];
+
 var displayString = "";
 
+var currentNumber = '';
+
 var total = 0;
+
+var lastOperator = '';
+
 
 // DEFINE YOUR FUNCTIONS HERE
 
 function handleButtonClick(element) {
     // You can use this to get the value of the button:
     // element.value
+
+    var buttonClickedValue = element.value;
+
     displayArray.push(element.value);
     display.innerHTML= addOnString();
+
+
+    // Do this if its an operator
+    if(element.className === "operator" && element.value !== '=')
+    {
+        total += parseInt(currentNumber);
+        currentNumber = '';
+        lastOperator = element.value;
+    }
+
+    if(element.value === '=')
+    {
+        if(lastOperator === "+")
+        {
+            total+=parseInt(currentNumber);
+        }
+        else if(lastOperator === '-')
+        {
+            total-=parseInt(currentNumber);
+        }
+        else if(lastOperator === '/')
+        {
+            total = total / parseInt(currentNumber);
+        }
+        else if(lastOperator === 'x')
+        {
+            total = total * parseInt(currentNumber);
+        }
+
+        currentNumber = total;
+
+        display.innerHTML = total;
+
+        displayArray = [];
+        displayArray[0] = total;
+        total = 0;
+    }
+
+    // Do this if its a number
+    if(element.className === 'number')
+    {
+        currentNumber += element.value;
+    }
 
     if (element.value === "clear"){
         clearButton();
     }
 
-    if (element.value === "+") {
-        addToTotal();
-    }
-
 }
+
 
 function addOnString(){
     displayString = "";
@@ -37,11 +90,10 @@ function addOnString(){
 function clearButton(){
     displayArray = [];
     display.innerHTML = "";
+    total = 0;
+    currentNumber = "";
 }
 
-function addToTotal(number) {
-
-}
 
 
 /**
