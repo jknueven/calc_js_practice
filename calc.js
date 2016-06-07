@@ -4,11 +4,6 @@ var display = document.querySelector('.display figure');
 
 var displayArray = [];
 
-var operators = ['x','+','-','=','/'];
-var number = ['0','1','2','3','4','6','7','8','9'];
-
-var allArray = [];
-
 var displayString = "";
 
 var currentNumber = '';
@@ -40,27 +35,10 @@ function handleButtonClick(element) {
 
     if(element.value === '=')
     {
-        if(lastOperator === "+")
-        {
-            total+=parseInt(currentNumber);
-        }
-        else if(lastOperator === '-')
-        {
-            total-=parseInt(currentNumber);
-        }
-        else if(lastOperator === '/')
-        {
-            total = total / parseInt(currentNumber);
-        }
-        else if(lastOperator === 'x')
-        {
-            total = total * parseInt(currentNumber);
-        }
+        doMath();
 
         currentNumber = total;
-
         display.innerHTML = total;
-
         displayArray = [];
         displayArray[0] = total;
         total = 0;
@@ -78,7 +56,6 @@ function handleButtonClick(element) {
 
 }
 
-
 function addOnString(){
     displayString = "";
     displayArray.forEach(function(number){
@@ -94,6 +71,12 @@ function clearButton(){
     currentNumber = "";
 }
 
+function doMath() {
+    if(lastOperator === "+") {total+=parseInt(currentNumber);}
+        else if(lastOperator === '-'){total-=parseInt(currentNumber);}
+        else if(lastOperator === '/'){total = total / parseInt(currentNumber);}
+        else if(lastOperator === 'x'){total = total * parseInt(currentNumber);}
+}
 
 
 /**
