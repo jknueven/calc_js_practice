@@ -1,16 +1,47 @@
 
 // DEFINE YOUR VARIABLES HERE
+var display = document.querySelector('.display figure');
 
+var displayArray = [];
 
+var displayString = "";
+
+var total = 0;
 
 // DEFINE YOUR FUNCTIONS HERE
 
 function handleButtonClick(element) {
     // You can use this to get the value of the button:
     // element.value
-    
+    displayArray.push(element.value);
+    display.innerHTML= addOnString();
+
+    if (element.value === "clear"){
+        clearButton();
+    }
+
+    if (element.value === "+") {
+        addToTotal();
+    }
+
 }
 
+function addOnString(){
+    displayString = "";
+    displayArray.forEach(function(number){
+        displayString+=number;
+    });
+    return displayString;
+}
+
+function clearButton(){
+    displayArray = [];
+    display.innerHTML = "";
+}
+
+function addToTotal(number) {
+
+}
 
 
 /**
