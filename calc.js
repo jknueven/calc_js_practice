@@ -1,17 +1,16 @@
 
 // DEFINE YOUR VARIABLES HERE
 var display = document.querySelector('.display figure');
+    var displayString = "";
 
-var displayArray = [];
+    var displayArray = [];
 
-var displayString = "";
 
-var currentNumber = '';
+var firstNumber = null;
+var secondNumber = null;
+var operator = null;
 
-var total = 0;
-
-var lastOperator = '';
-
+var currentNumber = "";
 
 // DEFINE YOUR FUNCTIONS HERE
 
@@ -19,30 +18,10 @@ function handleButtonClick(element) {
     // You can use this to get the value of the button:
     // element.value
 
-    var buttonClickedValue = element.value;
+    displayString = "";
 
     displayArray.push(element.value);
-    display.innerHTML= addOnString();
-
-
-    // Do this if its an operator
-    if(element.className === "operator" && element.value !== '=')
-    {
-        total += parseInt(currentNumber);
-        currentNumber = '';
-        lastOperator = element.value;
-    }
-
-    if(element.value === '=')
-    {
-        doMath();
-
-        currentNumber = total;
-        display.innerHTML = total;
-        displayArray = [];
-        displayArray[0] = total;
-        total = 0;
-    }
+    display.innerHTML = addOnString();
 
     // Do this if its a number
     if(element.className === 'number')
@@ -50,17 +29,29 @@ function handleButtonClick(element) {
         currentNumber += element.value;
     }
 
-    if (element.value === "clear"){
-        clearButton();
+    if (element.className === "operator" && firstNumber === null){
+        firstNumber = parseInt(currentNumber);
+        operator = element.value;
+        currentNumber= "";
+    }
+    else if (element.className === "operator" && firstNumber !== null) {
+        secondNumber = parseInt(currentNumber);
+        doMath(operator);
+        display.innerHTML= total;
+         currentNumber= "";
+         firstNumber = total;
+
     }
 
 }
 
 function addOnString(){
-    displayString = "";
-    displayArray.forEach(function(number){
+
+    displayArray.forEach(function(number)
+    {
         displayString+=number;
     });
+
     return displayString;
 }
 
@@ -71,11 +62,23 @@ function clearButton(){
     currentNumber = "";
 }
 
-function doMath() {
-    if(lastOperator === "+") {total+=parseInt(currentNumber);}
-        else if(lastOperator === '-'){total-=parseInt(currentNumber);}
-        else if(lastOperator === '/'){total = total / parseInt(currentNumber);}
-        else if(lastOperator === 'x'){total = total * parseInt(currentNumber);}
+function doMath(lastOperator) {
+    if(lastOperator === "+") 
+    {
+        total= firstNumber+secondNumber;
+    }
+    else if(lastOperator === '-')
+    {
+        total= firstNumber-secondNumber;
+    }
+    else if(lastOperator === '/')
+    {
+        total= firstNumber / secondNumber;
+    }
+    else if(lastOperator === 'x')
+    {
+        total = firstNumber * secondNumber;
+    }
 }
 
 
